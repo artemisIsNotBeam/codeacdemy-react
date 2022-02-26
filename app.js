@@ -1,22 +1,45 @@
 import { animals } from './animals';
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-const background = <img class="background" alt="ocean" src="/images/ocean.jpg"/>
-const title = <h1>Click an animal for a fun fact</h1>;
-const images = []
 
-for (let i=0;i<animals.length;i++){
-  images.push(<img src={animals[i].image}/>);
+const showBackground = false;
+const background = <img className='background' alt='ocean' src='/images/ocean.jpg' />;
+
+const title = '';
+
+
+const images = [];
+for (const animal in animals) {
+  images.push(<img
+    key={animal}
+    className='animal'
+    alt={animal}
+    src={animals[animal].image}
+    aria-label={animal}
+    role='button' 
+    onClick={displayFact()}
+    />)
+};
+
+
+function displayFact(e){
+  let randInt = Math.floor(Math.random() * 3);
+  let daAnimal = animals[e.target.alt];
+  let fact = daAnimal.facts[randInt];
+  //document.getElementById('fact').innerHTML = selectedfact;
 }
-
-
 const animalFacts = (
   <div>
-    {title}
-    {images}
+    <h1>{ title === '' ? 'Click an animal for a fun fact' : title }</h1>
+    {(showBackground === true) && background}
+    <p id="fact">hello</p>
+    <img 
+    className='background'
+    alt='ocean'
+    src='/images/ocean.jpg' 
+    />
+    <div className='animals'>{images}</div>
   </div>
-)
+);
 
-const test = animals[1].image
-ReactDOM.render(images, document.getElementById('root'));
+ReactDOM.render(animalFacts, document.getElementById('root'))
